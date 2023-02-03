@@ -66,6 +66,39 @@ const gig = mongoose.model("gigs",gigsSchema);
 const jobPost = mongoose.model("jobPosts",jobPostsSchema);
 const jobApplication = mongoose.model("jobApplications",jobApplicationsSchema);
 
+//=========================== GET POST ==============================================
+
+// userSignups
+app.route("/userSignUps").get(function(request,response){
+    userSignUp.find(function(error,foundusers){
+        if (!error) {
+            response.send(foundusers);
+        } else {
+            response.send(error);
+        }
+    })
+})
+.post(function(request,response){
+    const user = new userSignUp({
+        name : {
+            "firstName":request.body.fname,
+            "lastName":request.body.lname
+        },
+        email : request.body.email,
+        username : request.body.username,
+        pwd : request.body.pwd
+    });
+
+    user.save(function(error){
+        if (!error) {
+            response.send("Successfully SignedUp!");
+        } else {
+            response.send(error);
+        }
+    });
+});
+
+
 
 app.listen(5000,function(){
     console.log("server is up @ http://localhost:5000");
