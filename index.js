@@ -98,6 +98,37 @@ app.route("/userSignUps").get(function(request,response){
     });
 });
 
+// profiles
+app.route("/profiles")
+.get(function(request,response){
+    profile.find(function(error,foundProfiles){
+        if (!error) {
+            response.send(foundProfiles);
+        } else {
+            response.send(error);
+        }
+    })
+})
+.post(function(request,response){
+    const p = new profile({
+        _id: request.body.userSignUpId, // same in userSignUps
+        mobNo: request.body.mobNo,
+        dob:request.body.dob,
+        address:request.body.address,
+        landmark:request.body.landmark,
+        city:request.body.city,
+        pincode:request.pincode
+    });
+
+    p.save(function(error){
+        if (!error) {
+            response.send("Successfully added the profile!");
+        } else {
+            response.send(error);
+        }
+    });
+});
+
 
 
 app.listen(5000,function(){
