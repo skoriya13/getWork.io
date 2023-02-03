@@ -166,6 +166,44 @@ app.route("/gigs")
     });
 });
 
+// jobPosts
+app.route("/jobPosts").get(function(request,response){
+    jobPost.find(function(error,foundJobs){
+        if (!error) {
+            response.send(foundJobs);
+        } else {
+            response.send(error);
+        }
+    })
+})
+.post(function(request,response){
+    const jp = new jobPost({
+        profileID : request.body.userSignUpId, // same as userSignUps,
+        category: request.body.category,
+        postDescription: request.body.postDescription,
+        location: {
+            city: request.body.city,
+            state: request.body.state
+        },
+        workType: request.body.workType,
+        skillsNeeded:request.body.skillsNeeded,
+        workDuration:request.body.workDuration,
+        payTerms:request.body.payTerms,
+        minBudget:request.body.minBudget,
+        maxBudget:request.body.maxBudget,
+        applicants: [] // elements are userSignUpIds
+    });
+
+    jp.save(function(error){
+        if (!error) {
+            response.send("Successfully added the Job!");
+        } else {
+            response.send(error);
+        }
+    });
+});
+
+
 
 app.listen(5000,function(){
     console.log("server is up @ http://localhost:5000");
