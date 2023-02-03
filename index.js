@@ -129,6 +129,42 @@ app.route("/profiles")
     });
 });
 
+// gigs
+app.route("/gigs")
+.get(function(request,response){
+    gig.find(function(error,foundGigs){
+        if (!error) {
+            response.send(foundGigs);
+        } else {
+            response.send(error);
+        }
+    })
+})
+.post(function(request,response){
+    const g = new gig({
+        profileId: request.body.userSignUpId, // same as userSignUps
+        title: request.body.title,
+        category: request.body.category,
+        yourService: request.body.yourService,
+        workName: request.body.workname,
+        gigDescription: request.body.gigDescription,
+        experience: request.body.experience,
+        minPrice: request.body.minPrice,
+        sampleImages:{
+            img1: request.body.img1, 
+            img2: request.body.img2,
+            img3: request.body.img3
+        }
+    });
+
+    g.save(function(error){
+        if (!error) {
+            response.send("Successfully added the Gig!");
+        } else {
+            response.send(error);
+        }
+    });
+});
 
 
 app.listen(5000,function(){
