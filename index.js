@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const app = express();
 app.use(bodyParser.urlencoded({extended:true}));
 
-/ =================== Schemas and Models ========================
+// =================== Schemas and Models ========================
 mongoose.set('strictQuery', true);
 mongoose.connect("mongodb://localhost:27017/getWorkDB")
 
@@ -202,6 +202,35 @@ app.route("/jobPosts").get(function(request,response){
         }
     });
 });
+
+// jobApplications
+app.route("/jobApplications").get(function(request,response){
+    jobApplication.find(function(error,foundApplications){
+        if (!error) {
+            response.send(foundApplications);
+        } else {
+            response.send(error);
+        }
+    })
+})
+.post(function(request,response){
+    const ja = new jobApplication({
+        profileID : request.body.userSignUpId, // same as userSignUps,
+        proposal: request.body.proposal,
+	    pricePerDay:request.body.pricePerDay
+    });
+
+    ja.save(function(error){
+        if (!error) {
+            response.send("Successfully applied for the Job!");
+        } else {
+            response.send(error);
+        }
+    });
+});
+
+
+//================================= PUT ===================================
 
 
 
