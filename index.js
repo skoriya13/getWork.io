@@ -292,6 +292,23 @@ app.route("/jobPosts/:id").put(function(request,response){
         });
 });
 
+//jobApplications
+app.route("/jobApplications/:id").put(function(request,response){
+    let id = request.params.id;
+    jobApplication.findByIdAndUpdate(
+        id,
+        {$set:request.body},
+        function(error){
+            if (!error) {
+                response.send("update success!");
+            } else {
+                response.send(error);
+            }
+        });
+});
+
+// ================================= backend completed ============================
+
 app.listen(5000,function(){
     console.log("server is up @ http://localhost:5000");
 })
