@@ -277,6 +277,21 @@ app.route("/gigs/:id").put(function(request,response){
         });
 });
 
+//jobPosts
+app.route("/jobPosts/:id").put(function(request,response){
+    let id = request.params.id;
+    jobPost.findByIdAndUpdate(
+        id,
+        {$set:request.body},
+        function(error){
+            if (!error) {
+                response.send("update success!");
+            } else {
+                response.send(error);
+            }
+        });
+});
+
 app.listen(5000,function(){
     console.log("server is up @ http://localhost:5000");
 })
