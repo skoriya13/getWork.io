@@ -232,6 +232,20 @@ app.route("/jobApplications").get(function(request,response){
 
 //================================= PUT ===================================
 
+//userSignUps
+app.route("/userSignUps/:id").put(function(request,response){
+    let id = request.params.id;
+    userSignUp.findByIdAndUpdate(
+        id,
+        {$set:request.body},
+        function(error){
+            if (!error) {
+                response.send("update success!");
+            } else {
+                response.send(error);
+            }
+        });
+});
 
 
 app.listen(5000,function(){
